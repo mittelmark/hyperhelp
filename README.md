@@ -28,7 +28,7 @@ $hhelp help overview
 
 ![](hyperhelp/hyperhelp.png)
 
-Here   the   source   code   which   is   displayed   above   in  the   widget
+Here   the   source   code   of the help page which   is   displayed   above   in  the   widget
 [hyper-help-docu.txt](https://raw.githubusercontent.com/mittelmark/hyperhelp/main/hyperhelp/hyperhelp-docu.txt)
 
 ## Markup
