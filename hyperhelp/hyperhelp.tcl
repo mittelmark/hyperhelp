@@ -47,7 +47,7 @@ exec tclsh "$0" "$@"
 #' ## <a name='description'>DESCRIPTION</a>
 #' 
 #' The **hyperhelp** package is hypertext help system which can be easily embedded into Tk applications. It is based on code
-#' of the Tclers Wiki mainly be Keith Vetter see the [Tclers-Wiki](https://wiki.tcl-lang.org/page/A+Hypertext+Help+System)
+#' of the Tclers Wiki mainly be Keith Vetter see the [Tclers-Wiki](https://wiki.tcl-lang.org/page/A+Hypertext+Help+System).
 #' The difference of this package to the wiki code is, that it works on external files, provides some `subst` support for variables 
 #' and commands as well as a browser like toolbar. It can be as well used as standalone applications for browsing the help files.
 #' Markup syntax was modified towards Markdown to simplify writing help pages as this is a common documentation language. 
@@ -227,7 +227,7 @@ snit::widget ::hyperhelp::hyperhelp {
     #' 
     #'  > Configures the hyperhelp widget to use the given font. 
     #' Fontnames should be given as `[list fontname size]` such as for example 
-    #' `\[list {Linux Libertine} 12\]`. If no fontname is given the hyperhelp widget 
+    #' `[list {Linux Libertine} 12]`. If no fontname is given the hyperhelp widget 
     #' tries out a few standard font names on Linux and Windows System. 
     #' If none of those fonts is found, it falls back to "Times New Roman" which should be available on all platforms.
     option -font ""
@@ -1645,7 +1645,7 @@ package provide hyperhelp 0.9.0
 #'   - command substition is done using double brackets like in `[[package require hyperhelp]]` would embed the package version of the hyperhelp package
 #'   - variable substitution is done using the Dollar variable prefix, for instance `$::tcl_patchLevel` would embed the actual Tcl version
 #'   - caution: be sure to not load files from unknown sources, command substitution should not work with commands like `file`, `exec` or `socket`. 
-#'     But anyway only use your own help files
+#'     But anyway only use your own help files. The terminal application per default has command substitution disabled.
 #'
 #' *Lists:*
 #' 
@@ -1670,55 +1670,34 @@ package provide hyperhelp 0.9.0
 #'  
 #' ## <a name='install'>INSTALLATION</a>
 #' 
-#' Installation is easy you can install and use the **__PKGNAME__** package if you have a working install of:
-#'
-#' - the snit package  which can be found in [tcllib - https://core.tcl-lang.org/tcllib](https://core.tcl-lang.org/tcllib)
+#' Installation is easy you can install and use the **hyperhelp** package if you have a working install of the snit package  which can be found in [tcllib - https://core.tcl-lang.org/tcllib](https://core.tcl-lang.org/tcllib).
+#' Juxsst copy the hyperhelp folder to a directory belonging to your package path.
 #' 
 #' ## <a name='docu'>DOCUMENTATION</a>
 #'
 #' The script contains embedded the documentation in Markdown format. 
-#' To extract the documentation you need that the dgwutils.tcl file is in 
-#' the same directory with the file `hyperhelp.tcl`. 
-#' Then you can use the following command lines:
+#' To extract the documentation you need the [pantcl](https://github.com/mittelmark/pantcl) and the pandoc applications.
 #' 
 #' ```
-#' $ tclsh hyperhelp.tcl --markdown
+#' $ pantcl hyperhelp.tcl hyperhelp.html -s
 #' ```
 #'
-#' This will extract the embedded manual pages in standard Markdown format. You can as well use this markdown output directly to create html pages for the documentation by using the *--html* flag.
+#' Alternatively you can view the documentation directly on the terminal by using the `--man` flag.
 #' 
-#' ```
-#' $ tclsh hyperhelp.tcl --html
-#' ```
-#' 
-#' This will directly create a HTML page `hyperhelp.html` which contains the formatted documentation. 
-#' Github-Markdown can be extracted by using the *--man* switch:
-#' 
-
 #' ```
 #' $ tclsh hyperhelp.tcl --man
 #' ```
 #'
-#' The output of this command can be used to feed a markdown processor for conversion into a 
-#' html or pdf document. If you have pandoc installed for instance, you could execute the following commands:
-#'
-#' ```
-#' tclsh ../hyperhelp.tcl --man > hyperhelp.md
-#' pandoc -i hyperhelp.md -s -o hyperhelp.html
-#' pandoc -i hyperhelp.md -s -o hyperhelp.tex
-#' pdflatex hyperhelp.tex
-#' ```
 #' 
 #' ## <a name='see'>SEE ALSO</a>
 #'
-#' - [dgw - package](http://chiselapp.com/user/dgroth/repository/tclcode/index)
-#' - [shtmlview - package](http://chiselapp.com/user/dgroth/repository/tclcode/index)
+#' - [shtmlview - package in Tklib](https://core.tcl-lang.org/tklib/doc/trunk/embedded/md/tklib/files/modules/shtmlview/shtmlview.md)
 #'
 #' ## <a name='todo'>TODO</a>
 #'
 #' * some more template files (done)
 #' * tests (done, could be more)
-#' * github url
+#' * github url (done)
 #' * fix for broken TOC with four indents needed (done (?))
 #'
 #' ## <a name='changes'>CHANGES</a>
@@ -1753,6 +1732,7 @@ package provide hyperhelp 0.9.0
 #' The __hyperhelp__ package version __0.9.0__
 #' 
 #' Copyright (c) 2019-23  Detlef Groth, E-mail: <detlef(at)dgroth(dot)de>
+#'
 #' This library is free software; you can use, modify, and redistribute it
 #' for any purpose, provided that existing copyright notices are retained
 #' in all copies and that this notice is included verbatim in any
@@ -1886,10 +1866,26 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         } -result {1}
         tcltest::cleanupTests
         destroy .
-    } elseif {[llength $argv] == 1 && ([lindex $argv 0] eq "--license" || [lindex $argv 0] eq "--man" || [lindex $argv 0] eq "--html" || [lindex $argv 0] eq "--markdown")} {
+    } elseif {[llength $argv] == 1 && [lindex $argv 0] eq "--license"} {
         puts "License is: BSD 3-Clause License"
         puts "See: https://raw.githubusercontent.com/mittelmark/hyperhelp/main/LICENSE"
         destroy .
+    } elseif {[llength $argv] == 1 && [lindex $argv 0] eq "--man"} {
+        set filename [info script]
+        if [catch {open $filename r} infh] {
+            puts stderr "Cannot open $filename: $infh"
+            exit
+        } else {
+            set flagex 0
+            while {[gets $infh line] >= 0} {
+                # Process line
+                if {[regexp {^#' ?} $line]} {
+                    puts [regsub {^#' ?} $line ""]
+                }
+            }
+            close $infh
+            destroy .
+        }
     } else {
         destroy .
         puts "\n    -------------------------------------"
