@@ -6,3 +6,4 @@ applications.
 * Manual [hyperhelp.html](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/hyperhelp/master/hyperhelp/hyperhelp.html)
 
 
+![](hyperhelp/hyperhelp.png)
