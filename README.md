@@ -3,10 +3,22 @@
 Tcl/Tk   package  do  display   Markdown   like  help  pages  in  your  Tcl/Tk
 applications.
 
+Features:
+
+- multiple help pages and images as base64 encoded within the same file
+-  partially   Markdown   compatible  syntax  (headers,  list,  bold,  italic,
+  todo-list, images, ...)
+- table of contents
+- search and index facilities
+- history functionality
+- browser bar
+
 * Manual [hyperhelp.html](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/hyperhelp/master/hyperhelp/hyperhelp.html)
 
 All documentation is kept in a single file therefore  simplifying  application
-delivery. The markup syntax is compatible with standard  Markdown  allowing to
+delivery. Since version 1.0.0 it is as well possible to embed images within the
+document  directly as base64 encodings,  allowing to combine all documentation
+with images within the same file. The markup syntax is partially compatible with standard  Markdown  allowing to
 generate  as well other  documentation  formats  like docx  documents  or html
 documents  using the standard  document  processors,  for instance a tool like
 pandoc.
