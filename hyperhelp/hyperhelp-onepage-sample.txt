@@ -47,9 +47,23 @@ End of indentation
   ** subitem 3.1
   ** subitem 3.3
   * standard item 4
-
+  - [x] some already done
+  - [ ] some to do
+  - [n] some not possible
+  * [x] some already done
+  * [ ] some to do
+  * [n] some not possible
+  
+  
 **Header line**
 
 ### Header line
 
+An embedded header line
+
+### Icons
+
+Some embedded  icons for check [icon:actcheck16], cross [icon:actcross16], help  [icon:acthelp16],  idea  [icon:idea],  bookmark
+[icon:bookmark],    info    [icon:hinfo],   book   [icon:book]   or   textfile
+[icon:textfile].
 

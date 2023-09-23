@@ -9,6 +9,7 @@ alias: TOC
     - [Lists]
     - [Substitutions]
     - [Images]
+    - [Embedded Icons and Images] 
     - [Code Blocks]
     - [Indentation]
   - [Creating the TOC]
@@ -63,6 +64,7 @@ If you see an error in the  package  version statement in the line before, you s
 -----
 title: What's New
 Here are some features of this help system not found in the previous version:
+
     * Table of Content
     * Bullets
     * Multiple levels of indentation
@@ -82,6 +84,10 @@ Here are some features of this help system not found in the previous version:
     * indentation with markup
     * single page mode without toolbar and toc tree widget
     * more markdown like markup
+    * embedding icons and images in the document like so [icon:hinfo]
+    - [ ] todo lists
+    - [x] completed todos
+    - [n] rejected todos
 -----
 ## <a name="shortref">Short Formatting Reference</a>
 
@@ -141,6 +147,12 @@ Ordered lists:
   2. item 2
   3. item 3
 
+ToDo list:
+
+  - [ ] something to do (empty space within brackets)
+  - [x] something done  (x within brackets)
+  - [n] something rejected  (n within brackets)
+  
 ---
 
 **Blockquotes**
@@ -441,15 +453,65 @@ in culpa qui officia deserunt mollit anim id est laborum.*
 ------
 title: To Do 
 icon: idea
-  1 Visual clues in TOC about what is a link (don't know treeview well enough  to do this) (Done, blue color)
-  1 Mouse buttons 4 & 5 do history back and forward like Firefox and IE (not necessary)
-  1 Image support--not hard, I just haven't needed it (done)
   1 msgcat support
   1 read  help  data  from  separate  file  (done)
   1 keyboard navigation like surf and Prior, Next, Space, BackSpace (done)
   1 fix history for duplicates (done)
   1 buttons at the top, navigation bar instead of internal text (done)
   1 change default font 
-  1 wrap into snit widgets (done)
+  1 wrap into snit widgets (done) 
+  1 adding icons like bookmark [icon:bookmark] or idea [icon:idea] (done)
+  1 embedding images and icons at the end of the document like [icon:appbox16] (done)
 
 
+----------------------
+title: Icons and Images
+alias: Embedded Icons and Images
+
+If you add a section with title "Icons and Images" you can directly
+embed icons and images. Icons and Images can be  embedded by placing the icon or image name on its own
+line, the name should have no spaces and adding  thereafter the base64 encoded
+image data.  Between the images must be an empty space. To show the images you
+have to create links with the prefix  "icon:" like this:  (icon:idea) - replace
+parenthesis with brackets.
+
+Here links for the icons below:
+
+[icon:acthelp16] [icon:bookmark] [icon:idea] [icon:appbox16]
+
+
+acthelp16 
+   R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
+   3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
+   Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
+   AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
+   Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
+   ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+        
+bookmark
+   R0lGODlhEAAQAIQAAPwCBCwqLLSytLy+vERGRFRWVDQ2NKSmpAQCBKyurMTG
+   xISChJyanHR2dIyKjGxubHRydGRmZIyOjFxeXHx6fAAAAAAAAAAAAAAAAAAA
+   AAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAVbICACwWie
+   Y1CibCCsrBkMb0zchSEcNYskCtqBBzshFkOGQFk0IRqOxqPBODRHCMhCQKte
+   Rc9FI/KQWGOIyFYgkDC+gPR4snCcfRGKOIKIgSMQE31+f4OEYCZ+IQAh/mhD
+   cmVhdGVkIGJ5IEJNUFRvR0lGIFBybyB2ZXJzaW9uIDIuNQ0KqSBEZXZlbENv
+   ciAxOTk3LDE5OTguIEFsbCByaWdodHMgcmVzZXJ2ZWQuDQpodHRwOi8vd3d3
+   LmRldmVsY29yLmNvbQA7
+
+idea
+   R0lGODlhEAAQAIMAAPwCBAQCBPz+BPzerPz+xPyqXPz+/ISChFxaXKSipDQy
+   NAAAAAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAARMEEgZap14BjG6
+   CJkmEMVQCF+4mQPBpthWtuYJxkJJGK6dbQRCgMBB3XCDzQamMhpDGlvuCFUy
+   oQDLBUsJHBDUKuKQCKsUCIVZtc34IwAh/mhDcmVhdGVkIGJ5IEJNUFRvR0lG
+   IFBybyB2ZXJzaW9uIDIuNQ0KqSBEZXZlbENvciAxOTk3LDE5OTguIEFsbCBy
+   aWdodHMgcmVzZXJ2ZWQuDQpodHRwOi8vd3d3LmRldmVsY29yLmNvbQA7
+
+appbox16
+   R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
+   LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
+   WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
+   ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
+   NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
+   bGNvci5jb20AOw==
+
+----

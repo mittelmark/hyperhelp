@@ -75,6 +75,10 @@ pathName help topic</code></pre>
 <blockquote>
 <p>Configures the hyperhelp widget to use the given font. Fontnames should be given as <code>[list fontname size]</code> such as for example <code>[list {Linux Libertine} 12]</code>. If no fontname is given the hyperhelp widget tries out a few standard font names on Linux and Windows System. If none of those fonts is found, it falls back to “Times New Roman” which should be available on all platforms.</p>
 </blockquote>
+<p><strong>-fontmono</strong> <em>fontname</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget to use the given monospaced font. Fontnames should be given as <code>[list fontname size]</code> such as for example <code>[list Consolas 12]</code>. If no fontname is given the hyperhelp widget tries out a few standard font names on Linux and Windows System. If none of those fonts is found, it falls back to “Courier” which should be available on all platforms.</p>
+</blockquote>
 <p><strong>-helpfile</strong> <em>fileName</em></p>
 <blockquote>
 <p>Configures the hyperhelp widget with the given helpfile option to be displayed within the widget.</p>
@@ -127,10 +131,8 @@ Follows more text for the second help page. You can link
 to the [main] page here also.
 ------
 
-## &lt;a name="aliasname"&gt;Page title&lt;/a&gt;
-
-Text for the next page after this Markdown like header, the anchor is now an alis 
-which can be used for links like here [aliasname], the link [Page title] points to the same page.</code></pre>
+## &lt;a name="aliasname"&gt;Page title&lt;/a&gt;</code></pre>
+<p>Text for the next page after this Markdown like header, the anchor is now an alias which can be used for links like here [aliasname], the link [Page title] points to the same page.</p>
 <p>For the second page an other icon than the standard file icon was given for the help page. This icon is used for the treeview widget on the left displayed left of the page title. The following icons are currently available: acthelp16, bookmark, idea, navhome16, help, sheet, folder, textfile.</p>
 <p><em>“Table of Contents” page:</em></p>
 <p>There is a special page called “Table of Contents”. The unnumbered list, probably nested, of this page will be used for the navigation outline tree on the left. Below is the example for the contents page which comes with the hyperhelp help file “hyperhelp-docu.txt”. The “Table of Contents” page should be the first page in your documentation. Please indent only with standard Markdown syntax compatible, so two spaces for first level and four spaces for second level.</p>
@@ -203,6 +205,32 @@ alias: TOC
 <li>dashed lists can be done with single and double dashes</li>
 </ul>
 </blockquote>
+<p><em>Embedded Images:</em></p>
+<blockquote>
+<p>In addition to the standard image syntax where the image data of PNG images is stored in a separate file (png, jpg, etc), since version 1.0.0 is as well the possibility to embed base64 encoded directly within the document. To do so you have to create a help page “Icons and Images”, preferentially at the very end of the document like this:</p>
+</blockquote>
+<pre><code> ----------------------
+ title: Icons and Images
+ alias: Embedded Icons and Images
+
+ acthelp16 
+    R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
+    3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
+    Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
+    AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
+    Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
+    ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+
+ appbox16
+    R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
+    LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
+    WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
+    ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
+    NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
+    bGNvci5jb20AOw==</code></pre>
+<blockquote>
+<p>You can then embed these icons/images like this <code>[icon:appbox16]</code>. Here the resulting <img src="data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw=="/><!--URL:data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw==--> base64 image There are some online web services which allow you to encode images to base64 format, currently here only the PNG format might be supported. To see an example of such a document have a look at the manual page of hyperhelp, <a href="https://github.com/mittelmark/hyperhelp/blob/main/hyperhelp/hyperhelp-docu.txt">hyperhelp-docu.txt</a>.</p>
+</blockquote>
 <p><em>Key bindings:</em></p>
 <blockquote>
 <p>The hyperhelp window provides some standard key bindings to navigate the content:</p>
@@ -221,7 +249,7 @@ alias: TOC
 </ul>
 </blockquote>
 <h2 id="installation"><a name="install">INSTALLATION</a></h2>
-<p>Installation is easy you can install and use the <strong>hyperhelp</strong> package if you have a working install of the snit package which can be found in <a href="https://core.tcl-lang.org/tcllib">tcllib - https://core.tcl-lang.org/tcllib</a>. Juxsst copy the hyperhelp folder to a directory belonging to your package path.</p>
+<p>Installation is easy you can install and use the <strong>hyperhelp</strong> package if you have a working install of the snit package which can be found in <a href="https://core.tcl-lang.org/tcllib">tcllib - https://core.tcl-lang.org/tcllib</a>. Just copy the hyperhelp folder to a directory belonging to your package path or source the <code>hyperhelp.txt</code> into your Tcl application.</p>
 <h2 id="documentation"><a name="docu">DOCUMENTATION</a></h2>
 <p>The script contains embedded the documentation in Markdown format. To extract the documentation you need the <a href="https://github.com/mittelmark/pantcl">pantcl</a> and the pandoc applications.</p>
 <pre><code>$ pantcl hyperhelp.tcl hyperhelp.html -s</code></pre>
@@ -267,14 +295,21 @@ alias: TOC
 <li>adding hyperhelp-minimal example to the code</li>
 <li>adding –sample option to print this to the terminal</li>
 </ul></li>
-<li>2023-08-27 adding in its own package</li>
+<li>2023-08-27 Release 0.9.0 - making it a standalone package</li>
+<li>2023-09-24 Release 1.0.0
+<ul>
+<li>help page fixes for removing some not used options in the help page of the standalone viewer</li>
+<li>adding support for embedded images and icons</li>
+<li>adding support for todo items <code>[ ]</code> for todo or <code>[x]</code> for done</li>
+<li>adding support for monospace and default font for the standalone application</li>
+</ul></li>
 </ul>
 <h2 id="authors"><a name="authors">AUTHOR(s)</a></h2>
 <p>The <em>hyperhelp</em> package was written by Detlef Groth, University of Potsdam, Germany using Keith Vetters code from the Tclers Wiki as starting point.</p>
 <h2 id="license-and-copyright"><a name="license">LICENSE AND COPYRIGHT</a></h2>
-<p>The <strong>hyperhelp</strong> package version <strong>0.9.0</strong></p>
+<p>The <strong>hyperhelp</strong> package version <strong>1.0.0</strong></p>
 <p>Copyright (c) 2019-23 Detlef Groth, E-mail: &lt;detlef(at)dgroth(dot)de&gt;</p>
 <p>This library is free software; you can use, modify, and redistribute it for any purpose, provided that existing copyright notices are retained in all copies and that this notice is included verbatim in any distributions.</p>
 <p>This software is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p>
 </body>
-</html><!--Generated by HTMLArk 2023-09-23 07:42:50.202044. Original URL hyperhelp.html-->
+</html><!--Generated by HTMLArk 2023-09-23 10:56:42.668088. Original URL hyperhelp.html-->

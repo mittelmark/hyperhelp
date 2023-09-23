@@ -234,6 +234,16 @@ snit::widget ::hyperhelp::hyperhelp {
     option -font ""
 
     #' 
+    #'   __-fontmono__ _fontname_
+    #' 
+    #'  > Configures the hyperhelp widget to use the given monospaced font. 
+    #' Fontnames should be given as `[list fontname size]` such as for example 
+    #' `[list Consolas 12]`. If no fontname is given the hyperhelp widget 
+    #' tries out a few standard font names on Linux and Windows System. 
+    #' If none of those fonts is found, it falls back to "Courier" which should be available on all platforms.
+    option -fontmono ""
+    
+    #' 
     #'   __-helpfile__ _fileName_
     #' 
     #'  > Configures the hyperhelp widget with the given helpfile 
@@ -281,7 +291,12 @@ snit::widget ::hyperhelp::hyperhelp {
             set font [lindex $options(-font) 0]
             set size [lindex $options(-font) 1]
         }
-        set fonts(fixed) [font create -family "Courier" -size [expr {$size-1}]]
+        if {$options(-fontmono) eq ""} {
+            set fonts(fixed) [font create -family "Courier" -size [expr {$size-1}]]
+            set options(-fontmono) Courier
+        } else {
+            set fonts(fixed) [font create -family $options(-fontmono) -size [expr {$size-1}]]
+        }
         set fonts(std)  [font create -family $font -size $size]
         set fonts(italic)  [font create -family $font -size $size -slant italic]
         set fonts(bold)  [font create -family $font -size $size -weight bold]
@@ -401,10 +416,15 @@ snit::widget ::hyperhelp::hyperhelp {
         set data [read $fin] ; list
         close $fin
         # remove pandoc header
+        
         regsub -- {^-{3,}\s*\ntitle:.+?\n---\n} $data "" data
         regsub -all -line {^-{5,}$} $data \x01 data
         regsub -all -line {^\#\s.*$\n} $data {} data
         regsub -all -line {^ {4,5}([-+*]) } $data "    \\1\\1 " data
+        regsub -all { ([-*]) \[ \] } $data " \\1 \\u2610 " data
+        regsub -all { ([-*]) \[x\] } $data " \\1 \\u2713 " data
+        regsub -all { ([-*]) \[n\] } $data " \\1 \\u2612 " data
+
         set t [clock seconds]
         set cmds [list file open exec send socket] 
         foreach cmd $cmds {
@@ -440,7 +460,6 @@ snit::widget ::hyperhelp::hyperhelp {
             }
             # make subst more save
             # did not got interp alias to work
-            
             regsub -all -line {^(title:|alias:|icon:).*$\n} $section {} section
             regsub -all {\[\[} $section "````" section
             regsub -all {\]\]} $section "´´´´" section
@@ -505,7 +524,6 @@ snit::widget ::hyperhelp::hyperhelp {
             set state(all) [lsort [lappend state(all) $title]]
         }
     }
-    
     typeconstructor {
         image create photo acthelp16 -data {
             R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
@@ -805,6 +823,20 @@ snit::widget ::hyperhelp::hyperhelp {
             MYwM0tPUDH5BACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
             Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
             ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+        }
+        image create photo actcheck16 -data {
+            R0lGODlhEAAQAIIAAPwCBMT+xATCBASCBARCBAQCBEQCBAAAACH5BAEAAAAA
+            LAAAAAAQABAAAAM2CLrc/itAF8RkdVyVye4FpzUgJwijORCGUhDDOZbLG6Nd
+            2xjwibIQ2y80sRGIl4IBuWk6Af4EACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYg
+            UHJvIHZlcnNpb24gMi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJp
+            Z2h0cyByZXNlcnZlZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+        }
+        image create photo actcross16 -data {
+            R0lGODlhEAAQAIIAAASC/PwCBMQCBEQCBIQCBAAAAAAAAAAAACH5BAEAAAAA
+            LAAAAAAQABAAAAMuCLrc/hCGFyYLQjQsquLDQ2ScEEJjZkYfyQKlJa2j7AQn
+            MM7NfucLze1FLD78CQAh/mhDcmVhdGVkIGJ5IEJNUFRvR0lGIFBybyB2ZXJz
+            aW9uIDIuNQ0KqSBEZXZlbENvciAxOTk3LDE5OTguIEFsbCByaWdodHMgcmVz
+            ZXJ2ZWQuDQpodHRwOi8vd3d3LmRldmVsY29yLmNvbQA7
         }
 
 
@@ -1154,7 +1186,14 @@ snit::widget ::hyperhelp::hyperhelp {
     # Showlink -- Displays link specially
     #
     method Showlink {w link {tag {}}} {
-        if {[regexp {(\.png|\.gif)$} $link]} {
+        # todo items [ ], [x], [n]
+        if {[regexp {^ $} $link]} {
+            $w insert end "\u2610"
+        } elseif {[regexp {^x$} $link]} {
+            $w insert end "\u2713"
+        } elseif {[regexp {^n$} $link]} {
+            $w insert end "\u2612"
+        } elseif {[regexp {(\.png|\.gif)$} $link]} {
             set imgName [file tail [file rootname $link]]
             set imgFile [file join [file dirname $options(-helpfile)] $link]
             if {[file exists $imgFile]} {
@@ -1163,6 +1202,43 @@ snit::widget ::hyperhelp::hyperhelp {
                 $w image create end -image $imgName
             } else {
                 $w insert end "(Error: file $link does not exists)"
+            }
+        } elseif {[regexp {^icon:.+$} $link]} {
+            set imgName [regsub {^icon:} $link ""]
+            if {$imgName in [image names]} {
+                $w image create end -image $imgName
+            } else {
+                set hhName ::hh::$imgName
+                if {$hhName in [image names]} {
+                    $w image create end -image $hhName
+                } else {
+                    if {"Icons and Images" ni [array names pages]} {
+                        $w insert end "(missing icon)"
+                    } else {
+                        set imgtext $pages(Icons and Images)
+                        set flag false
+                        set imgdata ""
+                        namespace eval ::hh { }
+                        foreach line [split $imgtext \n] {
+                            if {$flag && [regexp {^\s*$} $line]} {
+                                image create photo ::hh::$imgName -data $imgdata
+                                break
+                            }
+                            if {[regexp "^$imgName\s*$" $line]} {
+                                set flag true
+                                continue
+                            }
+                            if {$flag} {
+                                append imgdata "$line\n"
+                            }
+                        }
+                        if {$imgdata eq ""} {
+                            $w insert end "(icon)"
+                        } else {
+                            $w image create end -image $hhName
+                        }
+                    }
+                }
             }
         } else {
             set tag [concat $tag link]
@@ -1532,7 +1608,7 @@ snit::widget ::hyperhelp::hyperhelp {
     }
 }
 ## EON HELP
-package provide hyperhelp 0.9.0
+package provide hyperhelp 1.0.0
 #' 
 #' ## <a name='example'>EXAMPLE</a>
 #' 
@@ -1575,8 +1651,8 @@ package provide hyperhelp 0.9.0
 #' 
 #'     ## <a name="aliasname">Page title</a>
 #'     
-#'     Text for the next page after this Markdown like header, the anchor is now an alis 
-#'     which can be used for links like here [aliasname], the link [Page title] points to the same page.
+#' Text for the next page after this Markdown like header, the anchor is now an alias 
+#' which can be used for links like here [aliasname], the link [Page title] points to the same page.
 #'
 #' For the second page an other icon than the standard file icon was given for the help page. This icon is
 #' used for the treeview widget on the left displayed left of the page title.
@@ -1632,7 +1708,6 @@ package provide hyperhelp 0.9.0
 #' > - indented blocks are done by using the pipe symbol `|` or the greater symbol  as in Markdown syntax
 #'   - indenting ends on lines without whitespaces as can be seen the following example
 #'
-#' 
 #'      > * indented one with `code text`
 #'        * indented two with **bold text**
 #'        * indented three with *italic text*
@@ -1653,6 +1728,36 @@ package provide hyperhelp 0.9.0
 #' > - support for list and nested lists using the standard `* item` and `** subitem`` syntax
 #'   - numbered lists can be done with starting a line with `1. ` followed by a white space such as in ` 1. item` and ` 11. subitem`
 #'   - dashed lists can be done with single and double dashes 
+#' 
+#' *Embedded Images:*
+#' 
+#' > In addition to the standard image syntax where the image data of PNG images is stored in a separate file (png, jpg, etc), since version 1.0.0 is as well the possibility to embed base64 encoded directly within the document. To do so you have to create a help page "Icons and Images", 
+#'   preferentially at the very end of the document like this:
+#' 
+#'      ----------------------
+#'      title: Icons and Images
+#'      alias: Embedded Icons and Images
+#' 
+#'      acthelp16 
+#'         R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
+#'         3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
+#'         Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
+#'         AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
+#'         Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
+#'         ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+#' 
+#'      appbox16
+#'         R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
+#'         LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
+#'         WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
+#'         ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
+#'         NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
+#'         bGNvci5jb20AOw==
+#' 
+#' > You can then embed these icons/images like this `[icon:appbox16]`. 
+#'  Here the resulting <img src="data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw=="> base64 image</img>
+#'  There are some online web services which allow you to encode images to base64 format, currently here only the PNG format might be supported.
+#'  To see an example of such a document have a look at the manual page of hyperhelp, [hyperhelp-docu.txt](https://github.com/mittelmark/hyperhelp/blob/main/hyperhelp/hyperhelp-docu.txt).
 #'
 #' *Key bindings:*
 #' 
@@ -1672,7 +1777,7 @@ package provide hyperhelp 0.9.0
 #' ## <a name='install'>INSTALLATION</a>
 #' 
 #' Installation is easy you can install and use the **hyperhelp** package if you have a working install of the snit package  which can be found in [tcllib - https://core.tcl-lang.org/tcllib](https://core.tcl-lang.org/tcllib).
-#' Juxsst copy the hyperhelp folder to a directory belonging to your package path.
+#' Just copy the hyperhelp folder to a directory belonging to your package path or source the `hyperhelp.txt` into your Tcl application.
 #' 
 #' ## <a name='docu'>DOCUMENTATION</a>
 #'
@@ -1722,7 +1827,12 @@ package provide hyperhelp 0.9.0
 #' - 2020-03-02
 #'     - adding hyperhelp-minimal example to the code
 #'     - adding --sample option to print this to the terminal
-#' - 2023-08-27 adding in its own package
+#' - 2023-08-27 Release 0.9.0 - making it a standalone package
+#' - 2023-09-24 Release 1.0.0
+#'      - help page fixes for removing some not used options in the help page of the standalone viewer
+#'      - adding support for embedded images and icons
+#'      - adding support for todo items  `[ ]` for todo or `[x]` for done
+#'      - adding support for monospace and default font for the standalone application
 #'
 #' ## <a name='authors'>AUTHOR(s)</a>
 #' 
@@ -1730,7 +1840,7 @@ package provide hyperhelp 0.9.0
 #' 
 #' ## <a name='license'>LICENSE AND COPYRIGHT</a>
 #' 
-#' The __hyperhelp__ package version __0.9.0__
+#' The __hyperhelp__ package version __1.0.0__
 #' 
 #' Copyright (c) 2019-23  Detlef Groth, E-mail: <detlef(at)dgroth(dot)de>
 #'
@@ -1745,10 +1855,24 @@ package provide hyperhelp 0.9.0
 if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]} {
     if {[llength $argv] >= 1 && [file exists [lindex $argv 0]]} {    
         set sub false
-        if {[llength $argv] > 1 && [lindex $argv 1] eq "--commandsubst"} {
+        if {[llength $argv] > 1 && [lsearch $argv "--commandsubst"] >-1} {
             set sub true
         }
-        set hhelp [hyperhelp::hyperhelp .win -helpfile [lindex $argv 0] -commandsubst $sub] ;#-font [{Alegreya 12}]
+        set font [list {Times New Roman} 12]
+        if {[lsearch $argv --font] > -1} {
+            set idx [lsearch $argv --font]
+            set font [lindex $argv [expr {$idx+1}]]
+            lappend font 12
+            set argv [lreplace $argv $idx [expr {$idx+1}] {}]
+
+        }
+        set monofont Courier
+        if {[lsearch $argv --fontmono] > -1} {
+            set idx [lsearch $argv --fontmono]
+            set monofont [lindex $argv [expr {$idx+1}]]
+            set argv [lreplace $argv $idx [expr {$idx+1}] {}]
+        }
+        set hhelp [hyperhelp::hyperhelp .win -helpfile [lindex $argv 0] -commandsubst $sub -font $font -fontmono $monofont] 
         if {[llength $argv] == 2 && !$sub} {
             $hhelp Help [lindex $argv 1]
         } elseif {[llength $argv] == 3} {
@@ -1887,6 +2011,27 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
             close $infh
             destroy .
         }
+    } elseif {[lindex $argv 0] eq "--demo"} {
+        panedwindow .pw
+        set hfile [file join [file dirname [info script]] hyperhelp-docu.txt]
+        set hhelp [hyperhelp::hyperhelp .pw.win -helpfile $hfile]
+        $hhelp Help overview
+        set hhelp2 [hyperhelp::hyperhelp .pw.win2 -helpfile $hfile]
+        $hhelp2 Help overview
+        pack .pw -side left -fill both -expand yes
+        .pw add $hhelp $hhelp2
+    } elseif {[lindex $argv 0] eq "--sample"} {
+        puts "title: Table of Contents"
+        puts "alias: TOC\n"
+        puts "  - \[Help\]"
+        puts "  - \[Second\]\n"
+        puts "-----\n"
+        puts "title: Help\n"
+        puts "some text\n\n  - a list\n   - \[ \] todo\n   - \[x\] done\n"
+        puts "-----\n"
+        puts "title: Second\n"
+        puts "    code block\n\nsome text with link to \[Help\]\n"
+        destroy .
     } else {
         destroy .
         puts "\n    -------------------------------------"
@@ -1902,30 +2047,17 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         puts "    Valid options are:\n"
         puts "        --help    : printing out this help page"
         puts "        --demo    : runs a small demo application."
-        puts "        --code    : shows the demo code."
         puts "        --sample  : print a sample help file to the terminal to be piped into new help file"
         puts "        --test    : running some test code"
         puts "        --license : printing the license to the terminal"
-        puts "        --install : install ${dpath}::$pfile as Tcl module"        
         puts "        --man     : printing the man page in pandoc markdown to the terminal"
-        puts "        --markdown: printing the man page in simple markdown to the terminal"
-        puts "        --html    : printing the man page in html code to the terminal"
-        puts "                    if the Markdown package from tcllib is available"
+        puts "        --font FONTNAME     : default FONT to be used, example: Candara"
+        puts "        --fontmono FONTNAME : default monospaced FONT to be used, example: Consolas"        
         puts ""
         puts "    The --man option can be used to generate the documentation pages as well with"
         puts "    a command like: "
         puts ""
         puts "    tclsh [file tail [info script]] --man | pandoc -t html -s > temp.html\n"
-    }
-    if {[lindex $argv 0] eq "--demo"} {
-        panedwindow .pw
-        set hfile [file join [file dirname [info script]] help.txt]
-        set hhelp [hyperhelp::hyperhelp .pw.win -helpfile $hfile]
-        $hhelp Help overview
-        set hhelp2 [hyperhelp::hyperhelp .pw.win2 -helpfile $hfile]
-        $hhelp2 Help overview
-        pack .pw -side left -fill both -expand yes
-        .pw add $hhelp $hhelp2
     }
 }
 
