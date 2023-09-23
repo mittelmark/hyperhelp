@@ -4,6 +4,7 @@ exec tclsh "$0" "$@"
 #' ---
 #' title:  Tcl/Tk hyperhelp package
 #' author: Detlef Groth, University of Potsdam, Germany
+#' date: 2023-09-23 07:30
 #' ---
 #' 
 #'
