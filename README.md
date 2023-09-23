@@ -47,7 +47,7 @@ title: Other Page title
 alias: other
 icon: acthelp16
 
-Follows more text for the second help page. You can link
+Follows more text for tqhe second help page. You can link
 to the [main] page here also.
 ------
 
