@@ -49,7 +49,7 @@ This new version also includes (see [What's New])
   * refresh help to update display
   * show toolbar and help outline widgets only if neccessary
   
-You are using hyperhelp package version [[package present dgw::hyperhelp]]. 
+You are using hyperhelp package version [[package present hyperhelp::hyperhelp]]. 
 
 If you see an error in the  package  version statement in the line before, you should  activate  the option
 *-commandsubst* by running for instance a standalone hyperhelp script as
