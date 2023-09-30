@@ -79,6 +79,8 @@ package require shistory
 #' should be set only at widget creation:
 
 namespace eval hyperhelp { 
+    variable FILENAME 
+    set FILENAME [info script]
     variable HyperMini
     set HyperMini {---
 title: Hyperhelp template
@@ -1608,7 +1610,7 @@ snit::widget ::hyperhelp::hyperhelp {
     }
 }
 ## EON HELP
-package provide hyperhelp 1.0.0
+package provide hyperhelp 1.0.1
 #' 
 #' ## <a name='example'>EXAMPLE</a>
 #' 
@@ -1731,7 +1733,7 @@ package provide hyperhelp 1.0.0
 #' 
 #' *Embedded Images:*
 #' 
-#' > In addition to the standard image syntax where the image data of PNG images is stored in a separate file (png, jpg, etc), since version 1.0.0 is as well the possibility to embed base64 encoded directly within the document. To do so you have to create a help page "Icons and Images", 
+#' > In addition to the standard image syntax where the image data of PNG images is stored in a separate file (png, jpg, etc), since version 1.0.1 is as well the possibility to embed base64 encoded directly within the document. To do so you have to create a help page "Icons and Images", 
 #'   preferentially at the very end of the document like this:
 #' 
 #'      ----------------------
@@ -1833,6 +1835,7 @@ package provide hyperhelp 1.0.0
 #'      - adding support for embedded images and icons
 #'      - adding support for todo items  `[ ]` for todo or `[x]` for done
 #'      - adding support for monospace and default font for the standalone application
+#' - 2023-09-30 - Release 1.0.1 - making it tclmain compatible
 #'
 #' ## <a name='authors'>AUTHOR(s)</a>
 #' 
@@ -1840,7 +1843,7 @@ package provide hyperhelp 1.0.0
 #' 
 #' ## <a name='license'>LICENSE AND COPYRIGHT</a>
 #' 
-#' The __hyperhelp__ package version __1.0.0__
+#' The __hyperhelp__ package version __1.0.1__
 #' 
 #' Copyright (c) 2019-23  Detlef Groth, E-mail: <detlef(at)dgroth(dot)de>
 #'
@@ -1852,7 +1855,8 @@ package provide hyperhelp 1.0.0
 #' This software is distributed WITHOUT ANY WARRANTY; without even the
 #' implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #'
-if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]} {
+
+proc ::hyperhelp::main {{argv ""}} {
     if {[llength $argv] >= 1 && [file exists [lindex $argv 0]]} {    
         set sub false
         if {[llength $argv] > 1 && [lsearch $argv "--commandsubst"] >-1} {
@@ -1860,17 +1864,17 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         }
         set font [list {Times New Roman} 12]
         if {[lsearch $argv --font] > -1} {
-            set idx [lsearch $argv --font]
+                set idx [lsearch $argv --font]
             set font [lindex $argv [expr {$idx+1}]]
             lappend font 12
-            set argv [lreplace $argv $idx [expr {$idx+1}] {}]
+            set argv [lreplace $argv $idx [expr {$idx+1}]]
 
         }
         set monofont Courier
         if {[lsearch $argv --fontmono] > -1} {
             set idx [lsearch $argv --fontmono]
             set monofont [lindex $argv [expr {$idx+1}]]
-            set argv [lreplace $argv $idx [expr {$idx+1}] {}]
+            set argv [lreplace $argv $idx [expr {$idx+1}]]
         }
         set hhelp [hyperhelp::hyperhelp .win -helpfile [lindex $argv 0] -commandsubst $sub -font $font -fontmono $monofont] 
         if {[llength $argv] == 2 && !$sub} {
@@ -1884,7 +1888,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         puts [package present hyperhelp]
         destroy .
     } elseif {[llength $argv] == 1 && [lindex $argv 0] eq "--example"} {    
-        set filename [info script]
+        set filename $::hyperhelp::FILENAME
         if [catch {open $filename r} infh] {
             puts stderr "Cannot open $filename: $infh"
             exit
@@ -1909,7 +1913,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         }
     } elseif {[llength $argv] == 1 && [lindex $argv 0] eq "--test"} {
         package require tcltest
-        set argv [list] 
+        set ::argv [list] 
         tcltest::test dummy-1.1 {
             Calling my proc should always return a list of at least length 3
         } -body {
@@ -1919,7 +1923,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
             starting hyperhelp
         } -body {
             package require hyperhelp
-            set helpfile [file join [file dirname [info script]] hyperhelp-docu.txt]
+            set helpfile [file join [file dirname $::hyperhelp::FILENAME] hyperhelp-docu.txt]
             set hhelp [hyperhelp::hyperhelp .help -helpfile $helpfile]
             pack $hhelp -side top -fill both -expand true
             $hhelp help "What's New"
@@ -1942,7 +1946,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
             simple on page side
         } -body {
             package require hyperhelp
-            set helpfile [file join [file dirname [info script]] hyperhelp-onepage-sample.txt]
+            set helpfile [file join [file dirname $::hyperhelp::FILENAME] hyperhelp-onepage-sample.txt]
             set hhelp [hyperhelp::hyperhelp .help -helpfile $helpfile]
             pack $hhelp -side top -fill both -expand true
             set result [$hhelp getTitle]
@@ -1959,7 +1963,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
             notoc test with several pages
         } -body {
             package require hyperhelp
-            set helpfile [file join [file dirname [info script]] hyperhelp-notoc-sample.txt]
+            set helpfile [file join [file dirname $::hyperhelp::FILENAME] hyperhelp-notoc-sample.txt]
             set hhelp [hyperhelp::hyperhelp .help -helpfile $helpfile]
             pack $hhelp -side top -fill both -expand true
             set result [$hhelp getTitle]
@@ -1976,7 +1980,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
             markdown test
         } -body {
             package require hyperhelp
-            set helpfile [file join [file dirname [info script]] hyperhelp-markdown-sample.md]
+            set helpfile [file join [file dirname $::hyperhelp::FILENAME] hyperhelp-markdown-sample.md]
             set hhelp [hyperhelp::hyperhelp .help -helpfile $helpfile]
             pack $hhelp -side top -fill both -expand true
             set result [$hhelp getTitle]
@@ -1996,7 +2000,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         puts "See: https://raw.githubusercontent.com/mittelmark/hyperhelp/main/LICENSE"
         destroy .
     } elseif {[llength $argv] == 1 && [lindex $argv 0] eq "--man"} {
-        set filename [info script]
+        set filename $::hyperhelp::FILENAME
         if [catch {open $filename r} infh] {
             puts stderr "Cannot open $filename: $infh"
             exit
@@ -2013,7 +2017,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         }
     } elseif {[lindex $argv 0] eq "--demo"} {
         panedwindow .pw
-        set hfile [file join [file dirname [info script]] hyperhelp-docu.txt]
+        set hfile [file join [file dirname $::hyperhelp::FILENAME] hyperhelp-docu.txt]
         set hhelp [hyperhelp::hyperhelp .pw.win -helpfile $hfile]
         $hhelp Help overview
         set hhelp2 [hyperhelp::hyperhelp .pw.win2 -helpfile $hfile]
@@ -2042,7 +2046,7 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         puts "\nThe hyperhelp package provides a help viewer widget with hyperhelp"
         puts "text facilities and a browser like toolbar"
         puts ""
-        puts "Usage: [info nameofexe] [info script] option|filename\n"
+        puts "Usage: [info nameofexe] $::hyperhelp::FILENAME ?--option? filename ?PAGE --document-options?\n"
         puts "    filename is a help file with hyperhelp markup"
         puts "    Valid options are:\n"
         puts "        --help    : printing out this help page"
@@ -2051,14 +2055,20 @@ if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]}
         puts "        --test    : running some test code"
         puts "        --license : printing the license to the terminal"
         puts "        --man     : printing the man page in pandoc markdown to the terminal"
+        puts "\n    Valid document options are:\n"
+        puts "        --commandsubst      : allow substitution of inline Tcl code (danger zone)"
         puts "        --font FONTNAME     : default FONT to be used, example: Candara"
         puts "        --fontmono FONTNAME : default monospaced FONT to be used, example: Consolas"        
-        puts ""
+        puts "\n    Here an example call using tclmain:"
+        puts "\n      tclmain -m hyperhelp hyperhelp-docu.txt Lists --font Candara --fontmono Consolas\n"
         puts "    The --man option can be used to generate the documentation pages as well with"
         puts "    a command like: "
         puts ""
-        puts "    tclsh [file tail [info script]] --man | pandoc -t html -s > temp.html\n"
+        puts "    tclsh [file tail $::hyperhelp::FILENAME] --man | pandoc -t html -s > temp.html\n"
     }
 }
 
 
+if {[info exists argv0] && $argv0 eq [info script] && [regexp hyperhelp $argv0]} {
+    hyperhelp::main $argv
+}
