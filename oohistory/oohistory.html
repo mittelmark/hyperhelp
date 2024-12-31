@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Detlef Groth, University of Potsdam, Germany" />
+  <title>oohistory 0.4.0</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="mini.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">oohistory 0.4.0</h1>
+<p class="author">Detlef Groth, University of Potsdam, Germany</p>
+<p class="date">2024-12-31 01:01</p>
+</header>
+<h2 id="name">NAME</h2>
+<p><strong>oohistory</strong> - history command implemented with
+tcloo</p>
+<h2 id="table-of-contents"><a name='toc'></a>TABLE OF CONTENTS</h2>
+<ul>
+<li><a href="#synopsis">SYNOPSIS</a></li>
+<li><a href="#description">DESCRIPTION</a></li>
+<li><a href="#command">COMMAND</a></li>
+<li><a href="#options">TYPE OPTIONS</a></li>
+<li><a href="#commands">TYPE COMMANDS</a></li>
+<li><a href="#example">EXAMPLE</a></li>
+<li><a href="#install">INSTALLATION</a></li>
+<li><a href="#docu">DOCUMENTATION</a></li>
+<li><a href="#todo">TODO</a></li>
+<li><a href="#author">AUTHOR</a></li>
+<li><a href="#copyright">COPYRIGHT</a></li>
+<li><a href="#license">LICENSE</a></li>
+</ul>
+<h2 id="synopsis"><a name='synopsis'>SYNOPSIS</a></h2>
+<pre><code>package require oohistory
+oohistory cmd ?option value?
+cmd back 
+cmd canBackward
+cmd canForward
+cmd canFirst
+cmd canLast
+cmd cget option
+cmd configure option value
+cmd current
+cmd first
+cmd forward
+cmd getHistory
+cmd home
+cmd insert value
+cmd last
+cmd resetHistory</code></pre>
+<h2 id="description"><a name='description'>DESCRIPTION</a></h2>
+<p>The <strong>oohistory</strong> class provides a command to allow the
+storage of text strings in a history. this can be useful to store for
+instance a browser history or a move history in a board game like Chess
+or Go.</p>
+<h2 id="type-options"><a name='options'>TYPE OPTIONS</a></h2>
+<p><strong>-home</strong> value</p>
+<blockquote>
+<p>The value which is set as the home, it is stored in principle as the
+first item in the history. Defaults to an empty string.</p>
+</blockquote>
+<h2 id="type-commands"><a name='commands'>TYPE COMMANDS</a></h2>
+<p>The <strong>oohistory</strong> type supports a few commands to
+navigate in a history list.</p>
+<p><em>cmd</em> <strong>back</strong></p>
+<blockquote>
+<p>Walks back in history one step and retrieves the value of the history
+at this position.</p>
+</blockquote>
+<p><em>cmd</em> <strong>canBackward</strong></p>
+<blockquote>
+<p>Returns true if the current position in history is not the first
+value in history and if the length of history is greater than 1.</p>
+</blockquote>
+<p><em>cmd</em> <strong>canFirst</strong></p>
+<blockquote>
+<p>Returns true if the current position in history is not the first
+value in history and if history length is greater than 1.</p>
+</blockquote>
+<p><em>cmd</em> <strong>canForward</strong></p>
+<blockquote>
+<p>Returns true if the current position in history is not the last value
+in history.</p>
+</blockquote>
+<p><em>cmd</em> <strong>canLast</strong></p>
+<blockquote>
+<p>Returns true if the current position in history is not the last value
+in history.</p>
+</blockquote>
+<p><em>cmd</em> <strong>cget</strong> <em>option</em></p>
+<blockquote>
+<p>Retrieves the given option value for the oohistory object. Curently
+only the <em>-home</em> option is available for <em>cget</em>.</p>
+</blockquote>
+<p><em>cmd</em> <strong>configure</strong> <em>option value ?option
+value …?</em></p>
+<blockquote>
+<p>Configures the given option for the oohistory object. Curently only
+the <em>-home</em> option is available for <em>configure</em>.</p>
+</blockquote>
+<p><em>cmd</em> <strong>current</strong></p>
+<blockquote>
+<p>Retrieves the current value of the history.</p>
+</blockquote>
+<p><em>cmd</em> <strong>first</strong></p>
+<blockquote>
+<p>Jumps to the first entry in history and returns it.</p>
+</blockquote>
+<p><em>cmd</em> <strong>forward</strong></p>
+<blockquote>
+<p>Gos one step forward in history and returns the value there.</p>
+</blockquote>
+<p><em>cmd</em> <strong>getHistory</strong></p>
+<blockquote>
+<p>Returns the history, a list of text entries.</p>
+</blockquote>
+<p><em>cmd</em> <strong>insert</strong> <em>value</em></p>
+<blockquote>
+<p>Inserts the value in the history at the actual index.</p>
+</blockquote>
+<p><em>cmd</em> <strong>home</strong></p>
+<blockquote>
+<p>Returns the home index value which was set using the <em>-home</em>
+option.</p>
+</blockquote>
+<p><em>cmd</em> <strong>last</strong></p>
+<blockquote>
+<p>Jumps to the last value in history and returns the value there.</p>
+</blockquote>
+<h2 id="example"><a name='example'>EXAMPLE</a></h2>
+<pre><code> package require oohistory
+ set sh [oohistory new -home h]
+ $sh insert a
+ $sh insert a ;# should not give duplicates
+ $sh insert a
+ $sh insert b
+ puts &quot;\ncanback: [$sh canBackward]&quot;
+ puts &quot;canforw: [$sh canForward]&quot;
+ $sh back
+ $sh insert z
+ puts [$sh getHistory]
+ puts [$sh home]
+ puts &quot;last: [$sh last]&quot;</code></pre>
+<h2 id="installation"><a name='install'>INSTALLATION</a></h2>
+<p>Installation is easy, you can install and use this
+<strong>oohistory</strong> package folder To use the
+<strong>oohistory</strong> package then, you can either source the file
+oohistory.tcl or copy or by copying the folder <em>oohistory</em> to a
+path belonging to your Tcl <code>$auto_path</code> variable.</p>
+<h2 id="documentation"><a name='docu'>DOCUMENTATION</a></h2>
+<p>The script contains embedded the documentation in Markdown format. To
+extract the documentation you should use the following command line:</p>
+<pre><code>$ tclsh oohistory.tcl --man</code></pre>
+<p>The output of this command can be used to create a markdown document
+for conversion into a markdown document that can be converted thereafter
+into a html or pdf document. If, for instance, you have pandoc installed
+you could execute the following commands:</p>
+<pre><code>tclsh ../oohistory.tcl --man &gt; oohistory.md
+pandoc -i oohistory.md -s -o oohistory.html</code></pre>
+<h2 id="todo"><a name='todo'>TODO</a></h2>
+<ul>
+<li>github url for putting the code in its own package</li>
+</ul>
+<h2 id="author"><a name='author'>AUTHOR</a></h2>
+<p>The <strong>oohistory</strong> command was written Detlef Groth,
+University of Potsdam, Germany.</p>
+<h2 id="copyright"><a name='copyright'>COPYRIGHT</a></h2>
+<p>Copyright (c) 2019-24 Dr. Detlef Groth, E-mail:
+detlef(at)dgroth(dot)de</p>
+<h2 id="license"><a name='license'>LICENSE</a></h2>
+<p>oohistory package - data structure, a list of text entries which can
+be navigated as history, version 0.4.0.</p>
+<p>Copyright (c) 2019-24 Detlef Groth, University of Potsdam, Germany
+E-mail: dgroth(at)uni(minus)potsdam(dot)de</p>
+<p>This library is free software; you can use, modify, and redistribute
+it for any purpose, provided that existing copyright notices are
+retained in all copies and that this notice is included verbatim in any
+distributions.</p>
+<p>This software is distributed WITHOUT ANY WARRANTY; without even the
+implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.</p>
+</body>
+</html>
