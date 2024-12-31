@@ -1,3 +1,8 @@
+[![License](https://img.shields.io/badge/license-BSD3-lightgray.svg)](https://github.com/mittelmark/hyperhelp/blob/main/LICENSE)
+[![Release](https://img.shields.io/github/v/release/mittelmark/hyperhelp.svg?label=current+release)](https://github.com/mittelmark/hyperhelp/releases)
+![Downloads](https://img.shields.io/github/downloads/mittelmark/hyperhelp/total)
+![Commits](https://img.shields.io/github/commits-since/mittelmark/hyperhelp/latest)
+
 # hyperhelp
 
 Tcl/Tk   package  do  display   Markdown   like  help  pages  in  your  Tcl/Tk
@@ -88,7 +93,7 @@ Detlef Groth, University of Potsdam, Germany
 ```
 BSD 3-Clause License
 
-Copyright (c) 2023, Detlef Groth, University of Potsdam, Germany
+Copyright (c) 2019-2024, Detlef Groth, University of Potsdam, Germany
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
