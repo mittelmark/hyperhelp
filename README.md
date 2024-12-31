@@ -18,15 +18,16 @@ Features:
 - history functionality
 - browser bar
 
-* Manual [hyperhelp.html](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/hyperhelp/master/hyperhelp/hyperhelp.html)
+* [hyperhelp manual](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/hyperhelp/master/hyperhelp/hyperhelp.html)
+* [oohistory manual](https://htmlpreview.github.io/?https://raw.githubusercontent.com/mittelmark/hyperhelp/master/oohistory/oohistory.html)
 
 All documentation is kept in a single file therefore  simplifying  application
-delivery. Since version 1.0.0 it is as well possible to embed images within the
-document  directly as base64 encodings,  allowing to combine all documentation
-with images within the same file. The markup syntax is partially compatible with standard  Markdown  allowing to
-generate  as well other  documentation  formats  like docx  documents  or html
-documents  using the standard  document  processors,  for instance a tool like
-pandoc.
+delivery.  Since  version  1.0.0 it is as well possible to embed images within
+the  document   directly  as  base64   encodings,   allowing  to  combine  all
+documentation with images within the same file. The markup syntax is partially
+compatible  with  standard   Markdown  allowing  to  generate  as  well  other
+documentation formats like docx documents or html documents using the standard
+document processors, for instance a tool like pandoc.
 
 Example:
 
