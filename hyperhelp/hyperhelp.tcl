@@ -2,7 +2,7 @@
 # The next line executes Tcl with the script \
 exec tclsh "$0" "$@"
 #' ---
-#' title:  Tcl/Tk hyperhelp package 1.1.0
+#' title:  Tcl/Tk hyperhelp package 1.1.1
 #' author: Detlef Groth, University of Potsdam, Germany
 #' date: 2024-12-31
 #' ---
@@ -443,10 +443,11 @@ snit::widget ::hyperhelp::hyperhelp {
             #puts "'${title}'"
             
             set n [regexp -line {^icon:\s*(.*?) *$} $section => icon]
+            set tit [regsub -all {[^A-Za-z0-9]} $title ""]
             if {! $n} {
-                set var("icon,$title") filenew16
+                set var(icon$tit) filenew16
             } else {
-                set  var("icon,$title") $icon
+                set  var(icon$tit) $icon
             }
             if {[incr x] == 1} {
                 set var(home) $title
@@ -464,11 +465,11 @@ snit::widget ::hyperhelp::hyperhelp {
             # did not got interp alias to work
             regsub -all -line {^(title:|alias:|icon:).*$\n} $section {} section
             regsub -all {\[\[} $section "````" section
-            regsub -all {\]\]} $section "创创" section
+            regsub -all {\]\]} $section "''''" section
             regsub -all {\[} $section "``" section
-            regsub -all {\]} $section "创" section
+            regsub -all {\]} $section "''" section
             regsub -all {````} $section "\[" section
-            regsub -all {创创} $section "\]" section
+            regsub -all {''''} $section "\]" section
             #set i [interp create -safe]
             #interp eval $i package require tdbc
             # not available in save interpr
@@ -488,7 +489,7 @@ snit::widget ::hyperhelp::hyperhelp {
             #$i eval subst $section
             
             regsub -all {``} $section "\[" section
-            regsub -all {创} $section "\]" section
+            regsub -all {''} $section "\]" section
             #puts "adding $title"
             $self AddPage $title $aliases $section
         }
@@ -1481,8 +1482,9 @@ snit::widget ::hyperhelp::hyperhelp {
             
             set isLink [regexp {^\[(.*)\]$} $txt => txt]
             set pDashes [string range $dashes 1 end]
-            if {[info exists var("icon,$txt")]} {
-                set icon $var("icon,$txt")
+            set tit [regsub -all {[^A-Za-z0-9]} $txt ""]
+            if {[info exists var(icon$tit)]} {
+                set icon $var(icon$tit)
             } else {
                 set icon filenew16
             }
@@ -1610,7 +1612,7 @@ snit::widget ::hyperhelp::hyperhelp {
     }
 }
 ## EON HELP
-package provide hyperhelp 1.1.0
+package provide hyperhelp 1.1.1
 #' 
 #' ## <a name='example'>EXAMPLE</a>
 #' 
@@ -1842,6 +1844,7 @@ package provide hyperhelp 1.1.0
 #'      - adding support for monospace and default font for the standalone application
 #' - 2023-09-30 - Release 1.0.1 - making it tclmain compatible
 #' - 2024-12-31 - Release 1.1.0 - Making it Tcl 9 aware, adding oohistory as its own package
+#' - 2024-12-31 - Release 1.1.1 - Additional fixes such as encoding for making it Tcl 9 aware
 #'
 #' ## <a name='authors'>AUTHOR(s)</a>
 #' 
@@ -1849,7 +1852,7 @@ package provide hyperhelp 1.1.0
 #' 
 #' ## <a name='license'>LICENSE AND COPYRIGHT</a>
 #' 
-#' The __hyperhelp__ package version __1.1.0__
+#' The __hyperhelp__ package version __1.1.1__
 #' 
 #' Copyright (c) 2019-24  Detlef Groth, University of Potsdam, Germany
 #'                        E-mail: <dgroth(at)uni(minus)potsdam(dot)de>
