@@ -57,13 +57,13 @@ exec tclsh "$0" "$@"
 
 
 package require Tk
-
+package require snit
 if {[catch {package require shistory}]} {
     lappend auto_path [file join [file dirname [info script]] .. ]
 }
 set haveTile078 1
 
-package require shistory
+package require oohistory
 
 
 #' 
@@ -315,7 +315,7 @@ snit::widget ::hyperhelp::hyperhelp {
         array set alias {index Index previous Previous back Back forward Forward 
             search Search history History next Next}
         array set var [list]
-        set sh [dgtools::shistory %AUTO% -home ""]
+        set sh [oohistory new -home ""]
         set W(top) $win
         $self ReadHelpFiles
         $self Help 
@@ -1610,7 +1610,7 @@ snit::widget ::hyperhelp::hyperhelp {
     }
 }
 ## EON HELP
-package provide hyperhelp 1.0.1
+package provide hyperhelp 1.1.0
 #' 
 #' ## <a name='example'>EXAMPLE</a>
 #' 
