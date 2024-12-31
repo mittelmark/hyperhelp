@@ -2,9 +2,9 @@
 # The next line executes Tcl with the script \
 exec tclsh "$0" "$@"
 #' ---
-#' title:  Tcl/Tk hyperhelp package
+#' title:  Tcl/Tk hyperhelp package 1.1.0
 #' author: Detlef Groth, University of Potsdam, Germany
-#' date: 2023-09-23 07:30
+#' date: 2024-12-31
 #' ---
 #' 
 #'
@@ -54,7 +54,7 @@ exec tclsh "$0" "$@"
 #' Markup syntax was modified towards Markdown to simplify writing help pages as this is a common documentation language. 
 #' In practice you can create a document which is a valid Markdown document and at the same time an usable help file. 
 #' The file [hyperhelp-markdown-sample.md](hyperhelp-markdown-sample.md) gives an example for such a file.
-
+#'
 
 package require Tk
 package require snit
@@ -1836,6 +1836,7 @@ package provide hyperhelp 1.1.0
 #'      - adding support for todo items  `[ ]` for todo or `[x]` for done
 #'      - adding support for monospace and default font for the standalone application
 #' - 2023-09-30 - Release 1.0.1 - making it tclmain compatible
+#' - 2024-12-31 - Release 1.1.0 - Making it Tcl 9 aware, adding oohistory as its own package
 #'
 #' ## <a name='authors'>AUTHOR(s)</a>
 #' 
@@ -1843,9 +1844,10 @@ package provide hyperhelp 1.1.0
 #' 
 #' ## <a name='license'>LICENSE AND COPYRIGHT</a>
 #' 
-#' The __hyperhelp__ package version __1.0.1__
+#' The __hyperhelp__ package version __1.1.0__
 #' 
-#' Copyright (c) 2019-23  Detlef Groth, E-mail: <detlef(at)dgroth(dot)de>
+#' Copyright (c) 2019-24  Detlef Groth, University of Potsdam, Germany
+#'                        E-mail: <dgroth(at)uni(minus)potsdam(dot)de>
 #'
 #' This library is free software; you can use, modify, and redistribute it
 #' for any purpose, provided that existing copyright notices are retained
@@ -2041,7 +2043,8 @@ proc ::hyperhelp::main {{argv ""}} {
         puts "\n    -------------------------------------"
         puts "     The hyperhelp package for Tcl/Tk"
         puts "    -------------------------------------\n"
-        puts "Copyright (c) 2019-2023 Detlef Groth, E-mail: detlef(at)dgroth(dot)de\n"
+        puts "Copyright (c) 2019-2024 Detlef Groth, University of Potsdam"
+        puts "                        E-mail: dgroth(at)uni(minus)potsdam(dot)de\n"
         puts "License: BSD 3-Clause License - License see manual page"
         puts "\nThe hyperhelp package provides a help viewer widget with hyperhelp"
         puts "text facilities and a browser like toolbar"
@@ -2049,12 +2052,13 @@ proc ::hyperhelp::main {{argv ""}} {
         puts "Usage: [info nameofexe] $::hyperhelp::FILENAME ?--option? filename ?PAGE --document-options?\n"
         puts "    filename is a help file with hyperhelp markup"
         puts "    Valid options are:\n"
-        puts "        --help    : printing out this help page"
-        puts "        --demo    : runs a small demo application."
-        puts "        --sample  : print a sample help file to the terminal to be piped into new help file"
-        puts "        --test    : running some test code"
-        puts "        --license : printing the license to the terminal"
-        puts "        --man     : printing the man page in pandoc markdown to the terminal"
+        puts "        --help          : printing out this help page"
+        puts "        --demo          : runs a small demo application."
+        puts "        --sample        : print a sample help file to the terminal to be piped into new help file"
+        puts "        --test          : running some test code"
+        puts "        --license       : printing the license to the terminal"
+        puts "        --man           : printing the man page in pandoc markdown to the terminal"
+        puts "        --man | mdman - : viewing documentation pages using mdman viewer"        
         puts "\n    Valid document options are:\n"
         puts "        --commandsubst      : allow substitution of inline Tcl code (danger zone)"
         puts "        --font FONTNAME     : default FONT to be used, example: Candara"
@@ -2064,7 +2068,7 @@ proc ::hyperhelp::main {{argv ""}} {
         puts "    The --man option can be used to generate the documentation pages as well with"
         puts "    a command like: "
         puts ""
-        puts "    tclsh [file tail $::hyperhelp::FILENAME] --man | pandoc -t html -s > temp.html\n"
+        puts "    tclsh $::hyperhelp::FILENAME --man | pandoc -f Markdown -t html -s > hyperhelp.html\n"
     }
 }
 
