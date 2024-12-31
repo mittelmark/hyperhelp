@@ -1710,12 +1710,13 @@ package provide hyperhelp 1.1.0
 #' > - indented blocks are done by using the pipe symbol `|` or the greater symbol  as in Markdown syntax
 #'   - indenting ends on lines without whitespaces as can be seen the following example
 #'
-#'      > * indented one with `code text`
-#'        * indented two with **bold text**
-#'        * indented three with *italic text*
+#' ```{style="margin-left: 60px"}
+#'   > * indented one with `code text`
+#'     * indented two with **bold text**
+#'     * indented three with *italic text*
 #' 
-#'      this text is again unindented
-#' 
+#'   this text is again unindented
+#' ```
 #' 
 #' *Substitutions:*
 #'
@@ -1733,28 +1734,32 @@ package provide hyperhelp 1.1.0
 #' 
 #' *Embedded Images:*
 #' 
-#' > In addition to the standard image syntax where the image data of PNG images is stored in a separate file (png, jpg, etc), since version 1.0.1 is as well the possibility to embed base64 encoded directly within the document. To do so you have to create a help page "Icons and Images", 
+#' > In addition to the standard image syntax where the image data of PNG images is stored in a separate file (png, jpg, etc),
+#'   since version 1.0.1 is as well the possibility to embed base64 encoded imagesdirectly within the document. 
+#'   To do so you have to create a help page "Icons and Images", 
 #'   preferentially at the very end of the document like this:
 #' 
-#'      ----------------------
-#'      title: Icons and Images
-#'      alias: Embedded Icons and Images
+#' ```{style="margin-left: 35px"}
+#'   ----------------------
+#'   title: Icons and Images
+#'   alias: Embedded Icons and Images
 #' 
-#'      acthelp16 
-#'         R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
-#'         3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
-#'         Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
-#'         AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
-#'         Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
-#'         ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+#'   acthelp16 
+#'      R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
+#'      3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
+#'      Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
+#'      AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
+#'      Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
+#'      ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
 #' 
-#'      appbox16
-#'         R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
-#'         LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
-#'         WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
-#'         ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
-#'         NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
-#'         bGNvci5jb20AOw==
+#'   appbox16
+#'      R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
+#'      LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
+#'      WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
+#'      ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
+#'      NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
+#'      bGNvci5jb20AOw==
+#' ```
 #' 
 #' > You can then embed these icons/images like this `[icon:appbox16]`. 
 #'  Here the resulting <img src="data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw=="> base64 image</img>

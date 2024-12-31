@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="utf-8" />
-  <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Detlef Groth, University of Potsdam, Germany" />
-  <meta name="dcterms.date" content="2024-12-31" />
-  <title>Tcl/Tk hyperhelp package 1.1.0</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="pandoc" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0, user-scalable=yes" name="viewport"/>
+<meta content="Detlef Groth, University of Potsdam, Germany" name="author"/>
+<meta content="2024-12-31" name="dcterms.date"/>
+<title>Tcl/Tk hyperhelp package 1.1.0</title>
+<style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -24,8 +24,8 @@
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
-  <link rel="stylesheet" href="mini.css" />
-  <!--[if lt IE 9]>
+<link href="data:text/css,%0A%20%20%20%20html%20%7B%0A%20%20%20%20%20%20%20%20overflow-y%3A%20scroll%3B%0A%20%20%20%20%7D%0A%20%20%20%20body%20%7B%0A%20%20%20%20%20%20%20%20color%3A%20%23444%3B%0A%20%20%20%20%20%20%20%20font-family%3A%20Georgia%2C%20Palatino%2C%20%27Palatino%20Linotype%27%2C%20Times%2C%20%27Times%20New%20Roman%27%2C%20serif%3B%0A%20%20%20%20%20%20%20%20line-height%3A%201.2%3B%0A%20%20%20%20%20%20%20%20padding%3A%201em%3B%0A%20%20%20%20%20%20%20%20margin%3A%20auto%3B%0A%20%20%20%20%20%20%20%20max-width%3A%20%20900px%3B%0A%20%20%20%20%7D%0A%20%20%20%20h1%2C%20h2%2C%20h3%2C%20h4%2C%20h5%2C%20h6%20%7B%0A%20%20%20%20%20%20%20%20color%3A%20%23111%3B%0A%20%20%20%20%20%20%20%20line-height%3A%20115%25%3B%0A%20%20%20%20%20%20%20%20margin-top%3A%201em%3B%0A%20%20%20%20%20%20%20%20font-weight%3A%20normal%3B%0A%20%20%20%20%7D%0A%20%20%20%20h1%20%7B%0A%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%20%20%20%20font-size%3A%20120%25%3B%0A%20%20%20%20%7D%0A%20%20%20%20h2%20%7B%20%20text-transform%3A%20uppercase%3B%20%20%20%7D%0A%0A%20%20%20%20h4.author%2C%20h4.date%2C%20p.author%2C%20p.date%20%7B%0A%20%20%20%20%20%20%20%20font-size%3A%20110%25%3B%0A%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20p%20%7B%20%20margin%3A%200.5em%200%3B%20%20%7D%0A%0A%20%20%20%20a%20%7B%0A%20%20%20%20%20%20%20%20color%3A%20%230645ad%3B%0A%20%20%20%20%20%20%20%20text-decoration%3A%20none%3B%0A%20%20%20%20%7D%0A%20%20%20%20a%3Avisited%20%7B%20color%3A%20%230b0080%3B%20%20%7D%0A%20%20%20%20a%3Ahover%20%20%20%7B%20color%3A%20%2306e%3B%20%20%20%20%20%7D%0A%20%20%20%20a%3Aactive%20%20%7B%20color%3A%20%23faa700%3B%20%20%7D%0A%20%20%20%20a%3Afocus%20%20%20%7B%20outline%3A%20thin%20dotted%3B%20%7D%0A%20%20%20%20p.date%20%7B%20%20text-align%3A%20center%3B%20%20%7D%0A%20%20%20%20img%20%7B%20%20max-width%3A%2090%25%3B%20%7D%0A%20%20%20%20%0A%20%20%20%20pre%2C%20blockquote%20pre%20%7B%0A%20%20%20%20%20%20%20%20border-top%3A%200.1em%20%239ac%20solid%3B%0A%20%20%20%20%20%20%20%20background%3A%20%23e9f6ff%3B%0A%20%20%20%20%20%20%20%20padding%3A%2010px%3B%0A%20%20%20%20%20%20%20%20border-bottom%3A%200.1em%20%239ac%20solid%3B%0A%20%20%20%20%7D%0A%20%20%20%20%0A%20%20%20%20blockquote%20%7B%0A%20%20%20%20%20%20%20%20margin%3A%200%3B%20%0A%20%20%20%20%20%20%20%20padding-left%3A%203em%3B%20%0A%20%20%20%20%7D%0A%20%20%20%20pre%2C%20code%2C%20kbd%2C%20samp%20%7B%0A%20%20%20%20%20%20%20%20color%3A%20%23000%3B%0A%20%20%20%20%20%20%20%20font-family%3A%20Monaco%2C%20%27courier%20new%27%2C%20monospace%3B%0A%20%20%20%20%20%20%20%20font-size%3A%2090%25%3B%20%0A%20%20%20%20%7D%0A%20%20%20%20code.r%20%7B%0A%20%20%20%20%20%20%20%20color%3A%20%23770000%3B%0A%20%20%20%20%7D%0A%20%20%20%20pre%20%7B%0A%20%20%20%20%20%20%20%20white-space%3A%20pre%3B%0A%20%20%20%20%20%20%20%20white-space%3A%20pre-wrap%3B%0A%20%20%20%20%20%20%20%20word-wrap%3A%20break-word%3B%0A%20%20%20%20%7D%0A%20%20%20%20/%2A%20fix%2C%20do%20not%20like%20bold%20for%20every%20keyword%20%2A/%0A%20%20%20%20code%20span.kw%20%7B%20color%3A%20%23007020%3B%20font-weight%3A%20normal%3B%20%7D%20/%2A%20Keyword%20%2A/%0A%20%20%20%20%20pre.sourceCode%20%7B%0A%20%20%20%20%20%20%20%20background%3A%20%23fff6f6%3B%0A%20%20%20%20%7D%20%0A%20%20%20%20figure%2C%20p.author%20%7B%0A%20%20%20%20%20%20%20%20text-align%3A%20center%3B%0A%20%20%20%20%7D%0A%20%0A%20%20%20%20table%20%7B%20%20%20%20%0A%20%20%20%20%20%20%20%20border-collapse%3A%20collapse%3B%0A%20%20%20%20%20%20%20%20border-bottom%3A%202px%20solid%3B%0A%20%20%20%20%20%20%20%20border-spacing%3A%205px%3B%0A%20%20%20%20%20%20%20%20min-width%3A%20400px%3B%0A%20%20%20%20%7D%0A%20%20%20%20table%20thead%20tr%20th%20%7B%20%0A%20%20%20%20%20%20%20%20background-color%3A%20%23fef1ef%3B%0A%20%20%20%20%20%20%20%20text-align%3A%20left%3B%20%0A%20%20%20%20%20%20%20%20padding%3A%2010px%3B%0A%20%20%20%20%20%20%20%20border-top%3A%202px%20solid%3B%0A%20%20%20%20%20%20%20%20border-bottom%3A%202px%20solid%3B%0A%20%20%20%20%7D%0A%20%20%20%20table%20td%20%7B%20%0A%20%20%20%20%20%20%20%20background-color%3A%20%23fffcf4%3B%0A%20%20%20%20%20%20%20%20text-align%3A%20left%3B%20%0A%20%20%20%20%20%20%20%20padding%3A%2010px%3B%0A%20%20%20%20%7D%0A" rel="stylesheet"/><!--URL:mini.css-->
+<!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 </head>
@@ -38,7 +38,7 @@
 <h2 id="name">NAME</h2>
 <p><strong>hyperhelp::hyperhelp</strong> help system with hypertext
 facilitites and table of contents outline</p>
-<h2 id="table-of-contents"><a name='toc'></a>TABLE OF CONTENTS</h2>
+<h2 id="table-of-contents"><a name="toc"></a>TABLE OF CONTENTS</h2>
 <ul>
 <li><a href="#synopsis">SYNOPSIS</a></li>
 <li><a href="#description">DESCRIPTION</a></li>
@@ -53,18 +53,17 @@ facilitites and table of contents outline</p>
 <li><a href="#authors">AUTHOR</a></li>
 <li><a href="#license">LICENSE AND COPYRIGHT</a></li>
 </ul>
-<h2 id="synopsis"><a name='synopsis'>SYNOPSIS</a></h2>
+<h2 id="synopsis"><a name="synopsis">SYNOPSIS</a></h2>
 <p>Usage as package:</p>
 <pre><code>package require hyperhelp
 hyperhelp::hyperhelp pathName -helpfile filename ?-option value ...?
 pathName help topic</code></pre>
 <p>Usage as command line application:</p>
 <pre><code>tclsh hyperhelp.tcl filename ?--commandsubst true?</code></pre>
-<h2 id="description"><a name='description'>DESCRIPTION</a></h2>
+<h2 id="description"><a name="description">DESCRIPTION</a></h2>
 <p>The <strong>hyperhelp</strong> package is hypertext help system which
 can be easily embedded into Tk applications. It is based on code of the
-Tclers Wiki mainly be Keith Vetter see the <a
-href="https://wiki.tcl-lang.org/page/A+Hypertext+Help+System">Tclers-Wiki</a>.
+Tclers Wiki mainly be Keith Vetter see the <a href="https://wiki.tcl-lang.org/page/A+Hypertext+Help+System">Tclers-Wiki</a>.
 The difference of this package to the wiki code is, that it works on
 external files, provides some <code>subst</code> support for variables
 and commands as well as a browser like toolbar. It can be as well used
@@ -72,27 +71,98 @@ as standalone applications for browsing the help files. Markup syntax
 was modified towards Markdown to simplify writing help pages as this is
 a common documentation language. In practice you can create a document
 which is a valid Markdown document and at the same time an usable help
-file. The file <a
-href="hyperhelp-markdown-sample.md">hyperhelp-markdown-sample.md</a>
+file. The file <a href="hyperhelp-markdown-sample.md">hyperhelp-markdown-sample.md</a>
 gives an example for such a file.</p>
-<h2 id="command"><a name='command'>COMMAND</a></h2>
+<h2 id="command"><a name="command">COMMAND</a></h2>
 <p><strong>hyperhelp::hyperhelp</strong> <em>pathName -helpfile fileName
 ?-option value …?</em></p>
 <blockquote>
 <p>creates a new <em>hyperhelp</em> widget using the given widget
 <em>pathName</em> and with the given <em>fileName</em>.</p>
 </blockquote>
-<h2 id="options"><a name='options'>OPTIONS</a></h2>
+<h2 id="options"><a name="options">OPTIONS</a></h2>
 <p>The <strong>hyperhelp::hyperhelp</strong> snit widget supports the
 following options which should be set only at widget creation:</p>
-<h2 id="example"><a name='example'>EXAMPLE</a></h2>
+<p><strong>-bottomnavigation</strong> <em>boolean</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget if at the bottom of each help page a
+textual navigation line should be displayed. Default <em>false</em>.</p>
+</blockquote>
+<p><strong>-commandsubst</strong> <em>boolean</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget to do substitutions using Tcl
+commands within the text. This might give some security issues if you
+load help files from dubious sources, although for this most critical
+commands like file, exec and socket are disaable even if this option is
+set to true. Default: false</p>
+</blockquote>
+<p><strong>-dismissbutton</strong> <em>boolean</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget to display at the button a “Dismiss”
+button. Useful if the help page is direct parent in a toplevel to
+destroy this toplevel. Default: <em>false</em>.</p>
+</blockquote>
+<p><strong>-font</strong> <em>fontname</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget to use the given font. Fontnames
+should be given as <code>[list fontname size]</code> such as for example
+<code>[list {Linux Libertine} 12]</code>. If no fontname is given the
+hyperhelp widget tries out a few standard font names on Linux and
+Windows System. If none of those fonts is found, it falls back to “Times
+New Roman” which should be available on all platforms.</p>
+</blockquote>
+<p><strong>-fontmono</strong> <em>fontname</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget to use the given monospaced font.
+Fontnames should be given as <code>[list fontname size]</code> such as
+for example <code>[list Consolas 12]</code>. If no fontname is given the
+hyperhelp widget tries out a few standard font names on Linux and
+Windows System. If none of those fonts is found, it falls back to
+“Courier” which should be available on all platforms.</p>
+</blockquote>
+<p><strong>-helpfile</strong> <em>fileName</em></p>
+<blockquote>
+<p>Configures the hyperhelp widget with the given helpfile option to be
+displayed within the widget.</p>
+</blockquote>
+<p><strong>-toctree</strong> <em>boolean</em></p>
+<blockquote>
+<p>Should the toc tree widget on the left be displayed. For simple help
+pages, consisting only of one, two, three pages the treeview widget
+might be overkill. Please note, that this widget is also not shown if
+there is no table of contents page, regardless of the <em>-toctree</em>
+option. Must be set at creation time currently. Default:
+<em>true</em></p>
+</blockquote>
+<p><strong>-toolbar</strong> <em>boolean</em></p>
+<blockquote>
+<p>Should the toolbar on top be displayed. For simple help pages,
+consisting only of one, two pages the toolbar might be overkill. Must be
+set at creation time currently. Default: <em>true</em></p>
+</blockquote>
+<h2 id="methods"><a name="methods">METHODS</a></h2>
+<p>The <em>hyperhelp</em> widget provides the following methods:</p>
+<p><em>pathName</em> <strong>help</strong> <em>topic</em></p>
+<blockquote>
+<p>Displays the given topic within widget. If the page does not exists
+an error page is shown.</p>
+</blockquote>
+<p><em>pathName</em> <strong>getTitle</strong></p>
+<blockquote>
+<p>Returns the current topic shown in the hyperhelp browser.</p>
+</blockquote>
+<p><em>pathName</em> <strong>getPages</strong></p>
+<blockquote>
+<p>Returns the page names for the current help file.</p>
+</blockquote>
+<h2 id="example"><a name="example">EXAMPLE</a></h2>
 <pre><code>package require hyperhelp
 set helpfile [file join [file dirname [info script]] hyperhelp-docu.txt]
 puts $helpfile
 set hhelp [hyperhelp::hyperhelp .help -helpfile $helpfile]
 pack $hhelp -side top -fill both -expand true
 $hhelp help overview</code></pre>
-<h2 id="markup-language"><a name='formatting'>MARKUP LANGUAGE</a></h2>
+<h2 id="markup-language"><a name="formatting">MARKUP LANGUAGE</a></h2>
 <p>The Markup language of the hyperhelp widget is similar to Tclers Wiki
 and Markdown markup. Here are the most important markup commands. For a
 detailed description have a look at the file
@@ -108,7 +178,7 @@ Markdown headers as the last page shows.</p>
 alias: main
 
 Free text can be written here with standard *Markdown* 
-or &#39;&#39;Wiki&#39;&#39; syntax markup.
+or ''Wiki'' syntax markup.
 
 ------
 title: Other Page title
@@ -119,7 +189,7 @@ Follows more text for the second help page. You can link
 to the [main] page here also.
 ------
 
-## &lt;a name=&quot;aliasname&quot;&gt;Page title&lt;/a&gt;</code></pre>
+## &lt;a name="aliasname"&gt;Page title&lt;/a&gt;</code></pre>
 <p>Text for the next page after this Markdown like header, the anchor is
 now an alias which can be used for links like here [aliasname], the link
 [Page title] points to the same page.</p>
@@ -139,7 +209,7 @@ spaces for first level and four spaces for second level.</p>
 <pre><code>title: Table of Contents 
 alias: TOC
   - [Welcome to the Help System]
-  - [What&#39;s New]
+  - [What's New]
   - Formatting
     - [Basic Formatting]
     - [Aliases]
@@ -167,8 +237,7 @@ alias: TOC
 <blockquote>
 <ul>
 <li>hyperlinks to other help pages within the same document are created
-using brackets: <code>[overview]</code> -&gt; <a
-href="#overview">overview</a></li>
+using brackets: <code>[overview]</code> -&gt; <a href="#overview">overview</a></li>
 <li>image links, where images will be embedded and shown
 <code>[image.png]</code></li>
 <li>also image display and hyperlinks in Markdown format are supported.
@@ -194,11 +263,11 @@ the greater symbol as in Markdown syntax</li>
 following example</li>
 </ul>
 </blockquote>
-<pre><code> &gt; * indented one with `code text`
-   * indented two with **bold text**
-   * indented three with *italic text*
+<pre style="margin-left: 60px"><code>  &gt; * indented one with `code text`
+    * indented two with **bold text**
+    * indented three with *italic text*
 
- this text is again unindented</code></pre>
+  this text is again unindented</code></pre>
 <p><em>Substitutions:</em></p>
 <blockquote>
 <ul>
@@ -231,38 +300,37 @@ followed by a white space such as in <code>1. item</code> and
 <blockquote>
 <p>In addition to the standard image syntax where the image data of PNG
 images is stored in a separate file (png, jpg, etc), since version 1.0.1
-is as well the possibility to embed base64 encoded directly within the
-document. To do so you have to create a help page “Icons and Images”,
-preferentially at the very end of the document like this:</p>
+is as well the possibility to embed base64 encoded imagesdirectly within
+the document. To do so you have to create a help page “Icons and
+Images”, preferentially at the very end of the document like this:</p>
 </blockquote>
-<pre><code> ----------------------
- title: Icons and Images
- alias: Embedded Icons and Images
+<pre style="margin-left: 35px"><code>  ----------------------
+  title: Icons and Images
+  alias: Embedded Icons and Images
 
- acthelp16 
-    R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
-    3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
-    Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
-    AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
-    Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
-    ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
+  acthelp16 
+     R0lGODlhEAAQAIMAAPwCBAQ6XAQCBCyCvARSjAQ+ZGSm1ARCbEyWzESOxIy6
+     3ARalAAAAAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAAQ/EEgQqhUz00GE
+     Jx2WFUY3BZw5HYh4cu6mSkEy06B72LHkiYFST0NRLIaa4I0oQyZhTKInSq2e
+     AlaaMAuYEv0RACH+aENyZWF0ZWQgYnkgQk1QVG9HSUYgUHJvIHZlcnNpb24g
+     Mi41DQqpIERldmVsQ29yIDE5OTcsMTk5OC4gQWxsIHJpZ2h0cyByZXNlcnZl
+     ZC4NCmh0dHA6Ly93d3cuZGV2ZWxjb3IuY29tADs=
 
- appbox16
-    R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
-    LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
-    WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
-    ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
-    NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
-    bGNvci5jb20AOw==</code></pre>
+  appbox16
+     R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAA
+     LAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnB
+     WdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRl
+     ZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5
+     NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZl
+     bGNvci5jb20AOw==</code></pre>
 <blockquote>
 <p>You can then embed these icons/images like this
 <code>[icon:appbox16]</code>. Here the resulting
-<img src="data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw==">
-base64 image</img> There are some online web services which allow you to
+<img src="data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw=="/><!--URL:data:image/png;base64,R0lGODlhEAAQAIIAAPwCBAQCBPz+xISCBMTCBAAAAAAAAAAAACH5BAEAAAAALAAAAAAQABAAAANECKoR6ys2IVqokF08yMTA1gwkYX5WQK5ma4VceTYPxXnBWdtY6+0834/Bowgzm6APWRQcH4TiMhPK2WYRiZWW7XK7/gQAIf5oQ3JlYXRlZCBieSBCTVBUb0dJRiBQcm8gdmVyc2lvbiAyLjUNCqkgRGV2ZWxDb3IgMTk5NywxOTk4LiBBbGwgcmlnaHRzIHJlc2VydmVkLg0KaHR0cDovL3d3dy5kZXZlbGNvci5jb20AOw==-->
+base64 image There are some online web services which allow you to
 encode images to base64 format, currently here only the PNG format might
 be supported. To see an example of such a document have a look at the
-manual page of hyperhelp, <a
-href="https://github.com/mittelmark/hyperhelp/blob/main/hyperhelp/hyperhelp-docu.txt">hyperhelp-docu.txt</a>.</p>
+manual page of hyperhelp, <a href="https://github.com/mittelmark/hyperhelp/blob/main/hyperhelp/hyperhelp-docu.txt">hyperhelp-docu.txt</a>.</p>
 </blockquote>
 <p><em>Key bindings:</em></p>
 <blockquote>
@@ -283,37 +351,34 @@ the content:</p>
 widget</li>
 </ul>
 </blockquote>
-<h2 id="installation"><a name='install'>INSTALLATION</a></h2>
+<h2 id="installation"><a name="install">INSTALLATION</a></h2>
 <p>Installation is easy you can install and use the
 <strong>hyperhelp</strong> package if you have a working install of the
-snit package which can be found in <a
-href="https://core.tcl-lang.org/tcllib">tcllib -
+snit package which can be found in <a href="https://core.tcl-lang.org/tcllib">tcllib -
 https://core.tcl-lang.org/tcllib</a>. Just copy the hyperhelp folder to
 a directory belonging to your package path or source the
 <code>hyperhelp.txt</code> into your Tcl application.</p>
-<h2 id="documentation"><a name='docu'>DOCUMENTATION</a></h2>
+<h2 id="documentation"><a name="docu">DOCUMENTATION</a></h2>
 <p>The script contains embedded the documentation in Markdown format. To
-extract the documentation you need the <a
-href="https://github.com/mittelmark/pantcl">pantcl</a> and the pandoc
+extract the documentation you need the <a href="https://github.com/mittelmark/pantcl">pantcl</a> and the pandoc
 applications.</p>
 <pre><code>$ pantcl hyperhelp.tcl hyperhelp.html -s</code></pre>
 <p>Alternatively you can view the documentation directly on the terminal
 by using the <code>--man</code> flag.</p>
 <pre><code>$ tclsh hyperhelp.tcl --man</code></pre>
-<h2 id="see-also"><a name='see'>SEE ALSO</a></h2>
+<h2 id="see-also"><a name="see">SEE ALSO</a></h2>
 <ul>
-<li><a
-href="https://core.tcl-lang.org/tklib/doc/trunk/embedded/md/tklib/files/modules/shtmlview/shtmlview.md">shtmlview
+<li><a href="https://core.tcl-lang.org/tklib/doc/trunk/embedded/md/tklib/files/modules/shtmlview/shtmlview.md">shtmlview
 - package in Tklib</a></li>
 </ul>
-<h2 id="todo"><a name='todo'>TODO</a></h2>
+<h2 id="todo"><a name="todo">TODO</a></h2>
 <ul>
 <li>some more template files (done)</li>
 <li>tests (done, could be more)</li>
 <li>github url (done)</li>
 <li>fix for broken TOC with four indents needed (done (?))</li>
 </ul>
-<h2 id="changes"><a name='changes'>CHANGES</a></h2>
+<h2 id="changes"><a name="changes">CHANGES</a></h2>
 <ul>
 <li>2020-02-01 Release 0.5 - first published version</li>
 <li>2020-02-05 Release 0.6 - catching errors for missing images and
@@ -359,11 +424,11 @@ application</li>
 <li>2024-12-31 - Release 1.1.0 - Making it Tcl 9 aware, adding oohistory
 as its own package</li>
 </ul>
-<h2 id="authors"><a name='authors'>AUTHOR(s)</a></h2>
+<h2 id="authors"><a name="authors">AUTHOR(s)</a></h2>
 <p>The <em>hyperhelp</em> package was written by Detlef Groth,
 University of Potsdam, Germany using Keith Vetters code from the Tclers
 Wiki as starting point.</p>
-<h2 id="license-and-copyright"><a name='license'>LICENSE AND
+<h2 id="license-and-copyright"><a name="license">LICENSE AND
 COPYRIGHT</a></h2>
 <p>The <strong>hyperhelp</strong> package version
 <strong>1.1.0</strong></p>
@@ -377,4 +442,4 @@ distributions.</p>
 implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 PURPOSE.</p>
 </body>
-</html>
+</html><!--Generated by HTMLArk 2024-12-31 06:49:17.603746. Original URL hyperhelp.html-->
